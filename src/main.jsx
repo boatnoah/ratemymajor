@@ -4,18 +4,20 @@ import App from "./App.jsx";
 import "./index.css";
 import { ThemeProvider } from "./components/theme-provider.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CreatePost from "./components/CreatePost.jsx";
-
+import CreatePost from "@/components/CreatePost";
+import ViewSchool from "@/components/ViewSchool";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [
-      {
-        path: "/create-post",
-        element: <CreatePost />,
-      },
-    ],
+  },
+  {
+    path: "/create-post",
+    element: <CreatePost />,
+  },
+  {
+    path: "/:uniName",
+    element: <ViewSchool />,
   },
 ]);
 

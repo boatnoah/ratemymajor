@@ -3,7 +3,7 @@ import NavBar from "./components/NavBar.jsx";
 
 const App = () => {
   return (
-    <div className="flex flex-col space-y-72">
+    <div className="flex flex-col gap-52">
       <NavBar />
       <HomePage />
     </div>
