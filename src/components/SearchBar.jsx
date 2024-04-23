@@ -3,18 +3,22 @@ import universities from "/us_institutions.json";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import Fuse from "fuse.js";
+
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
+
+  const fuse = new Fuse(universities, {
+    keys: ["institution"],
+    includeMatches: true,
+    threshold: 0.3,
+  });
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
   };
-  const handleClick = (choice) => {
-    console.log(choice);
-  };
-  const filteredUniversities = universities.filter((uni) =>
-    uni.institution.toLowerCase().includes(searchInput.toLowerCase()),
-  );
+
+  const filteredUniversities = fuse.search(searchInput, { limit: 15 });
 
   return (
     <div className="flex items-center gap-5">
@@ -30,15 +34,14 @@ const SearchBar = () => {
         </div>
         {searchInput && (
           <div className="absolute top-full left-0 w-full max-h-48 overflow-y-auto shadow-lg rounded-lg mt-2 z-10">
-            {filteredUniversities.map((uni, index) => (
-              <div
-                key={index}
-                onClick={() => handleClick(uni.institution)}
-                className="px-4 text-sm hover:bg-gray-300 py-2 dark:hover:bg-gray-700 dark:text-gray-400 cursor-pointer rounded-lg"
-              >
-                <Link to={`/${uni.institution.trim()}`}>{uni.institution}</Link>
-              </div>
-            ))}
+            {filteredUniversities &&
+              filteredUniversities.map((uni, index) => (
+                <Link key={index} to={`/${uni.item.institution}`}>
+                  <div className="px-4 text-sm hover:bg-gray-300 py-2 dark:hover:bg-gray-700 dark:text-gray-400 cursor-pointer rounded-lg">
+                    {uni.item.institution}
+                  </div>
+                </Link>
+              ))}
           </div>
         )}
       </div>
