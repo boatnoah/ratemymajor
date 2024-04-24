@@ -1,5 +1,5 @@
-import HomePage from "./components/HomePage.jsx";
-import NavBar from "./components/NavBar.jsx";
+import HomePage from "@/components/HomePage";
+import NavBar from "@/components/NavBar";
 
 const App = () => {
   return (

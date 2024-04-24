@@ -2,10 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { ThemeProvider } from "./components/theme-provider.jsx";
+import { ThemeProvider } from "@/components/theme-provider.jsx";
+import { Toaster } from "@/components/ui/toaster";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreatePost from "@/components/CreatePost";
 import ViewSchool from "@/components/ViewSchool";
+import EditPost from "@/components/EditPost";
+import ViewMore from "@/components/ViewMore";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,12 +23,21 @@ const router = createBrowserRouter([
     path: "/:uniName",
     element: <ViewSchool />,
   },
+  {
+    path: "/:uniName/:postid",
+    element: <EditPost />,
+  },
+  {
+    path: "/viewMore/:postid",
+    element: <ViewMore />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <RouterProvider router={router} />
+      <Toaster />
     </ThemeProvider>
   </React.StrictMode>,
 );
