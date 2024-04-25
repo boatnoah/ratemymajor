@@ -175,7 +175,7 @@ const ViewMore = () => {
       });
       return;
     }
-
+    // todo make sure logout users cannot make comments
     await supabase
       .from("comments")
       .insert({
