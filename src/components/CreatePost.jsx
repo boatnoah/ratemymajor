@@ -25,6 +25,23 @@ import Fuse from "fuse.js";
 import { supabase } from "@/client";
 
 const CreatePost = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error) {
+        console.log("error", error);
+      } else {
+        console.log("user data", data.user);
+        setUser(data.user);
+      }
+    };
+
+    getUserData();
+  }, []);
+
   const [post, setPost] = useState({
     description: "",
     major: "",
@@ -95,9 +112,13 @@ const CreatePost = () => {
       });
       return;
     }
+
     await supabase
       .from("posts")
       .insert({
+        name: user.user_metadata.full_name,
+        picture: user.user_metadata.picture,
+        user_id: user.id,
         description: post.description,
         difficulty: post.difficulty,
         rating: post.rating,
@@ -107,7 +128,6 @@ const CreatePost = () => {
       .select();
     window.location = `/${post.school}`;
   };
-  console.log(post);
 
   return (
     <div>

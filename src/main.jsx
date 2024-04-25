@@ -9,6 +9,7 @@ import CreatePost from "@/components/CreatePost";
 import ViewSchool from "@/components/ViewSchool";
 import EditPost from "@/components/EditPost";
 import ViewMore from "@/components/ViewMore";
+import LoginPage from "@/components/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/viewMore/:postid",
     element: <ViewMore />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 

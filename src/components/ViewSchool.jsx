@@ -9,22 +9,7 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/dialog";
-
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/client";
 import { Loader2 } from "lucide-react";
@@ -32,6 +17,22 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 const ViewSchool = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error) {
+        console.log("error", error);
+      } else {
+        console.log("user data", data.user);
+        setUser(data.user);
+      }
+    };
+
+    getUserData();
+  }, []);
   const school = useParams();
   const [allMajors, setAllMajors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -53,18 +54,6 @@ const ViewSchool = () => {
     console.error();
   }, [school.uniName]);
 
-  // Define the deletePost function here
-  const deletePost = async (id) => {
-    await supabase.from("posts").delete().eq("id", id);
-    window.location = `/${school.uniName}`;
-  };
-
-  // Define the editPost function here
-  const editPost = (postId) => {
-    // Add logic to navigate to the edit post page with the postId
-    window.location = `/${school.uniName}/${postId}`;
-  };
-
   return (
     <div className="flex flex-col gap-5">
       <NavBar />
@@ -82,40 +71,13 @@ const ViewSchool = () => {
             <Link key={post.id} to={`/viewMore/${post.id}`}>
               <Card key={post.id} className="w-[472px]">
                 <CardHeader>
-                  <div className="flex justify-between">
-                    <CardTitle>Random User</CardTitle>
-                    <Dialog>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger>...</DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem onClick={() => editPost(post.id)}>
-                            Edit
-                          </DropdownMenuItem>
-
-                          <DialogTrigger asChild>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                          </DialogTrigger>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Are you absolutely sure?</DialogTitle>
-                          <DialogDescription>
-                            This action cannot be undone. This will permanently
-                            delete your post.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <DialogFooter>
-                          <Button
-                            variant="destructive"
-                            onClick={() => deletePost(post.id)}
-                          >
-                            Yes, I understand
-                          </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
+                  <Avatar>
+                    <AvatarImage src={`${post.picture}`} />
+                    <AvatarFallback>
+                      {post.name[0] + post.name[post.name.length - 1]}
+                    </AvatarFallback>
+                  </Avatar>
+                  <CardTitle>{post.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Badge>{post.major}</Badge>
