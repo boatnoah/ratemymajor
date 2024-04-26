@@ -31,6 +31,8 @@ import { ThumbsUpIcon } from "@/assets/thumbsupIcon";
 import { ThumbsDownIcon } from "@/assets/thumbsDownIcon";
 import { Textarea } from "@/components/ui/textarea";
 import NavBar from "@/components/NavBar";
+import { Badge } from "@/components/ui/badge";
+import { GraduationCap } from "lucide-react";
 
 const ViewMore = () => {
   const [user, setUser] = useState({});
@@ -175,6 +177,7 @@ const ViewMore = () => {
       });
       return;
     }
+
     // todo make sure logout users cannot make comments
     await supabase
       .from("comments")
@@ -195,7 +198,7 @@ const ViewMore = () => {
     const { data } = await supabase
       .from("comments")
       .select("upvotes")
-      .eq("user_id", user_Id)
+      .eq("id", user_Id)
       .single();
 
     const upVoteData = data.upvotes;
@@ -203,25 +206,25 @@ const ViewMore = () => {
     await supabase
       .from("comments")
       .update({ upvotes: upVoteData + 1 })
-      .eq("user_id", user_Id)
+      .eq("id", user_Id)
       .single();
 
     setTriggerRefresh(true);
   };
 
   const handleDownVotes = async (user_Id) => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("comments")
       .select("downvotes")
-      .eq("user_id", user_Id)
+      .eq("id", user_Id)
       .single();
-
+    console.log("error", error);
+    console.log("failed data", data);
     const downVoteData = data.downvotes;
-
     await supabase
       .from("comments")
       .update({ downvotes: downVoteData + 1 })
-      .eq("user_id", user_Id)
+      .eq("id", user_Id)
       .single();
 
     setTriggerRefresh(true);
@@ -230,144 +233,167 @@ const ViewMore = () => {
   return (
     <div>
       <NavBar />
-      {post && (
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              <Avatar>
-                <AvatarImage src={`${post.picture}`} />
-                <AvatarFallback>OP</AvatarFallback>
-              </Avatar>
-              {post.name}
-            </CardTitle>
-            {user.id === post.user_id ? (
-              <Dialog>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>...</DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => editPost(post.id)}>
-                      Edit
-                    </DropdownMenuItem>
 
-                    <DialogTrigger asChild>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
-                    </DialogTrigger>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your post.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button
-                      variant="destructive"
-                      onClick={() => deletePost(post.id)}
-                    >
-                      Yes, I understand
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            ) : (
-              <></>
-            )}
-          </CardHeader>
-          <CardContent>
-            <CardDescription>{post.school}</CardDescription>
-            <CardDescription>{post.major}</CardDescription>
-            <CardDescription>{post.description}</CardDescription>
-            <CardDescription>Rating: {post.rating}</CardDescription>
-            <CardDescription>Diffculty: {post.difficulty}</CardDescription>
-          </CardContent>
-          <CardFooter>
-            <div className="flex items-center gap-2">
-              <Button
-                className="inline-flex items-center rounded-full bg-green-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                onClick={incrementLikes}
-              >
-                <ThumbsUpIcon className="mr-2 h-5 w-5" />
-                <span>{likes}</span>
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                className="inline-flex items-center rounded-full bg-red-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                onClick={decrementLikes}
-              >
-                <ThumbsDownIcon className="mr-2 h-5 w-5" />
-                <span>{dislikes}</span>
-              </Button>
-            </div>
-          </CardFooter>
-        </Card>
-      )}
-
-      {commentData && commentData.length > 0 ? (
-        commentData.map((comment) => (
-          <Card key={comment.user_id}>
+      <div className="flex flex-col items-center justify-center gap-5 mt-10">
+        {post && (
+          <Card className="w-1/2">
             <CardHeader>
-              <Avatar>
-                <AvatarImage src={`${comment.picture}`} />
-                <AvatarFallback>C</AvatarFallback>
-              </Avatar>
-              <CardTitle>{comment.name}</CardTitle>
+              <CardTitle className="flex justify-between">
+                <div className="flex items-center gap-3">
+                  <Avatar>
+                    <AvatarImage src={`${post.picture}`} />
+                    <AvatarFallback>OP</AvatarFallback>
+                  </Avatar>
+                  {post.name}
+                </div>
+                {user.id === post.user_id ? (
+                  <Dialog>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>...</DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => editPost(post.id)}>
+                          Edit
+                        </DropdownMenuItem>
+
+                        <DialogTrigger asChild>
+                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                        </DialogTrigger>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your post.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <Button
+                          variant="destructive"
+                          onClick={() => deletePost(post.id)}
+                        >
+                          Yes, I understand
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  <></>
+                )}
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <CardDescription>{comment.text}</CardDescription>
+            <CardContent className="flex flex-col gap-2">
+              <CardTitle>{post.school}</CardTitle>
+              <Badge className="flex justify-center gap-5 w-1/6 my-2">
+                <span>
+                  <GraduationCap />
+                </span>
+                <span>{post.major}</span>
+              </Badge>
+
+              <div className="flex gap-5">
+                <span className="text-xl">Rating: {post.rating}</span>
+                <span className="text-xl">Difficulty: {post.difficulty}</span>
+              </div>
+              <CardDescription>{post.description}</CardDescription>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex gap-3">
               <div className="flex items-center gap-2">
                 <Button
                   className="inline-flex items-center rounded-full bg-green-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                  onClick={() => handleUpVotes(comment.user_id)}
+                  onClick={incrementLikes}
                 >
                   <ThumbsUpIcon className="mr-2 h-5 w-5" />
-                  <span>{comment.upvotes}</span>
+                  <span>{likes}</span>
                 </Button>
               </div>
 
               <div className="flex items-center gap-2">
                 <Button
                   className="inline-flex items-center rounded-full bg-red-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                  onClick={() => handleDownVotes(comment.user_id)}
+                  onClick={decrementLikes}
                 >
                   <ThumbsDownIcon className="mr-2 h-5 w-5" />
-                  <span>{comment.downvotes}</span>
+                  <span>{dislikes}</span>
                 </Button>
               </div>
             </CardFooter>
           </Card>
-        ))
-      ) : (
-        <>Be first to comment!</>
-      )}
+        )}
 
-      {canMakeComments && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-md">Add a Comment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Textarea onChange={(e) => handleChange("text", e.target.value)} />
-          </CardContent>
-          <CardFooter>
-            <Button onClick={handleComment}>Comment</Button>
-          </CardFooter>
-        </Card>
-      )}
+        {commentData && commentData.length > 0 ? (
+          commentData.map((comment) => (
+            <Card className="w-1/2" key={comment.user_id}>
+              <CardHeader>
+                <CardTitle>
+                  <div className="flex items-center gap-3">
+                    <Avatar>
+                      <AvatarImage src={`${comment.picture}`} />
+                      <AvatarFallback>OP</AvatarFallback>
+                    </Avatar>
+                    {comment.name}
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>{comment.text}</CardDescription>
+              </CardContent>
+              <CardFooter className="flex gap-3">
+                <div className="flex items-center gap-2">
+                  <Button
+                    className="inline-flex items-center rounded-full bg-green-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    onClick={() => handleUpVotes(comment.id)}
+                  >
+                    <ThumbsUpIcon className="mr-2 h-5 w-5" />
+                    <span>{comment.upvotes}</span>
+                  </Button>
+                </div>
 
-      <Button
-        onClick={handleClick}
-        className="w-full rounded-full"
-        variant="outline"
-      >
-        Add a comment
-      </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    className="inline-flex items-center rounded-full bg-red-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                    onClick={() => handleDownVotes(comment.id)}
+                  >
+                    <ThumbsDownIcon className="mr-2 h-5 w-5" />
+                    <span>{comment.downvotes}</span>
+                  </Button>
+                </div>
+              </CardFooter>
+            </Card>
+          ))
+        ) : (
+          <h1 className="text-lg font-bold">Be first to comment!</h1>
+        )}
+
+        {canMakeComments && (
+          <Card className="w-1/2">
+            <CardHeader>
+              <CardTitle className="text-md">Add a Comment</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                onChange={(e) => handleChange("text", e.target.value)}
+              />
+            </CardContent>
+            <CardFooter>
+              <Button onClick={handleComment}>Comment</Button>
+            </CardFooter>
+          </Card>
+        )}
+
+        {user.aud === "authenticated" ? (
+          <Button
+            onClick={handleClick}
+            className="w-1/2 rounded-full"
+            variant="outline"
+          >
+            Add a comment
+          </Button>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };

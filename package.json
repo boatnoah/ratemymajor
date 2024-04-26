@@ -26,6 +26,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "date-fns": "^3.6.0",
     "debounce": "^2.0.0",
     "fuse.js": "^7.0.0",
     "lodash": "^4.17.21",

@@ -14,7 +14,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-
 const NavBar = () => {
   const [isSignedIn, setSignedIn] = useState(false);
   const [user, setUser] = useState({});
@@ -26,7 +25,12 @@ const NavBar = () => {
       if (error) {
         console.log("error", error);
       }
-      if (data?.user.aud === "authenticated") {
+      if (!data.user) {
+        console.log("logged out");
+        return;
+      }
+
+      if (data.user.aud === "authenticated") {
         console.log("logged in");
         setSignedIn(true);
         setUser(data.user);
@@ -47,6 +51,7 @@ const NavBar = () => {
     }
 
     setSignedIn(false);
+
     toast({
       title: "Log Out Success",
       description: "You are logged out.",

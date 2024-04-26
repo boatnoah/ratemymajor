@@ -123,81 +123,85 @@ const EditPost = () => {
   return (
     <div>
       <NavBar />
-      {post && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Edit Post</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            <Select
-              className="w-[180px]"
-              defaultValue={post.school}
-              onValueChange={(value) => handleChange("school", value)}
-            >
-              <SelectTrigger className="w-[500px]">
-                <SelectValue placeholder={post.school || "Select College"} />
-              </SelectTrigger>
-              <SelectContent>
-                <Input
-                  placeholder="Search..."
-                  onChange={(e) => setSearchQuery(e.target.value)}
+      <div className="flex flex-col justify-center items-center">
+        {post && (
+          <Card className="mt-52">
+            <CardHeader>
+              <CardTitle>Edit Post</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <Select
+                className="w-[180px]"
+                defaultValue={post.school}
+                onValueChange={(value) => handleChange("school", value)}
+              >
+                <SelectTrigger className="w-[500px]">
+                  <SelectValue placeholder={post.school || "Select College"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <Input
+                    placeholder="Search..."
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {filteredUniversities &&
+                    filteredUniversities.map((option, i) => (
+                      <SelectItem key={i} value={option.item.institution}>
+                        {option.item.institution}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+              <Input
+                id="major"
+                value={post.major}
+                onChange={(event) => handleChange("major", event.target.value)}
+                placeholder="Major"
+              />
+              <div className="flex flex-col gap-5">
+                <h1 className="text-lg font-bold">
+                  Rating: {post.rating} - {ratings[post.rating]}
+                </h1>
+                <Slider
+                  className="w-[100px]"
+                  value={[post.rating]}
+                  min={1}
+                  max={5}
+                  step={1}
+                  onValueChange={(value) => handleChange("rating", value[0])}
                 />
-                {filteredUniversities &&
-                  filteredUniversities.map((option, i) => (
-                    <SelectItem key={i} value={option.item.institution}>
-                      {option.item.institution}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-            <Input
-              id="major"
-              value={post.major}
-              onChange={(event) => handleChange("major", event.target.value)}
-              placeholder="Major"
-            />
-            <div className="flex flex-col gap-5">
-              <h1 className="text-lg font-bold">
-                Rating: {post.rating} - {ratings[post.rating]}
-              </h1>
-              <Slider
-                className="w-[100px]"
-                value={[post.rating]}
-                min={1}
-                max={5}
-                step={1}
-                onValueChange={(value) => handleChange("rating", value[0])}
-              />
-            </div>
-            <div className="flex flex-col gap-5">
-              <h1 className="text-lg font-bold">
-                Difficulty: {post.difficulty} - {difficulty[post.difficulty]}
-              </h1>
-              <Slider
-                className="w-[100px]"
-                value={[post.difficulty]}
-                min={1}
-                max={5}
-                step={1}
-                onValueChange={(value) => handleChange("difficulty", value[0])}
-              />
-            </div>
-            <CardDescription>
-              <Textarea
-                value={post.description}
-                id="description"
-                onChange={(event) =>
-                  handleChange("description", event.target.value)
-                }
-                placeholder="Share your thoughts..."
-              />
-            </CardDescription>
+              </div>
+              <div className="flex flex-col gap-5">
+                <h1 className="text-lg font-bold">
+                  Difficulty: {post.difficulty} - {difficulty[post.difficulty]}
+                </h1>
+                <Slider
+                  className="w-[100px]"
+                  value={[post.difficulty]}
+                  min={1}
+                  max={5}
+                  step={1}
+                  onValueChange={(value) =>
+                    handleChange("difficulty", value[0])
+                  }
+                />
+              </div>
+              <CardDescription>
+                <Textarea
+                  value={post.description}
+                  id="description"
+                  onChange={(event) =>
+                    handleChange("description", event.target.value)
+                  }
+                  placeholder="Share your thoughts..."
+                />
+              </CardDescription>
+            </CardContent>
             <CardFooter>
               <Button onClick={updatePost}>Save</Button>
             </CardFooter>
-          </CardContent>
-        </Card>
-      )}
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
