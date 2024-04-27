@@ -40,7 +40,6 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
-# Application Features
 
 ## Searching
 
@@ -68,13 +67,15 @@ Log out of the application securely.
 
 ### Creating a Post
 
-![Create Post GIF](link-to-create-post-gif)
+![createpost](https://github.com/boatnoah/ratemymajor/assets/112355104/ed43c595-b64c-44e9-85b0-88efa08a9e1a)
+
 
 Create and publish new reviews for your major.
 
 ### Editing a Post
 
-![Edit Post GIF](link-to-edit-post-gif)
+![editpost](https://github.com/boatnoah/ratemymajor/assets/112355104/09c711e2-a241-4b55-8b6f-5bfc04a6966e)
+
 
 Update and modify existing reviews of yours.
 
