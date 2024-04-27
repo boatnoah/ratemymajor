@@ -1,5 +1,6 @@
 import SearchBar from "@/components/SearchBar";
 import { AnimatePresence, motion } from "framer-motion";
+import Student from "@/assets/student.png";
 const HomePage = () => {
   return (
     <div className="flex justify-center px-6 py-2">
@@ -49,7 +50,7 @@ const HomePage = () => {
               </p>
             </div>
             <div className="flex items-center">
-              <img src="./src/assets/student.png" alt="Image by Free Pik" />
+              <img src={Student} alt="Image by Free Pik" />
             </div>
           </motion.div>
         </AnimatePresence>
