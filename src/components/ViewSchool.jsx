@@ -29,6 +29,7 @@ const ViewSchool = () => {
 
       if (error) {
         console.log("error", error);
+        return;
       } else {
         console.log("user data", data.user);
         setUser(data.user);
@@ -70,7 +71,7 @@ const ViewSchool = () => {
       });
     };
   }, []);
-
+  console.log("user state", user);
   return (
     <div className="flex flex-col gap-5">
       <div>
@@ -80,28 +81,30 @@ const ViewSchool = () => {
         </h1>
       </div>
       <Separator />
-      <div className="flex gap-2 pl-10">
-        <Button
-          variant={`${buttonPressed}`}
-          onClick={() => {
-            setShowRecent(!showRecent);
-            setButtonPressed("");
-            setOtherButton("secondary");
-          }}
-        >
-          Recent
-        </Button>
-        <Button
-          variant={`${otherButton}`}
-          onClick={() => {
-            setOrderBy(orderBy === "likes" ? "created_at" : "likes");
-            setButtonPressed("secondary");
-            setOtherButton("");
-          }}
-        >
-          Trending
-        </Button>
-      </div>
+      {allMajors && allMajors.length > 0 && (
+        <div className="flex gap-2 pl-10">
+          <Button
+            variant={`${buttonPressed}`}
+            onClick={() => {
+              setShowRecent(!showRecent);
+              setButtonPressed("");
+              setOtherButton("secondary");
+            }}
+          >
+            Recent
+          </Button>
+          <Button
+            variant={`${otherButton}`}
+            onClick={() => {
+              setOrderBy(orderBy === "likes" ? "created_at" : "likes");
+              setButtonPressed("secondary");
+              setOtherButton("");
+            }}
+          >
+            Trending
+          </Button>
+        </div>
+      )}
       <div className="mx-auto grid max-4xl grid-cols-3 gap-4 p-10 justify-center">
         {isLoading ? (
           <Loader2 className="justify-center animate-spin" />
@@ -155,7 +158,13 @@ const ViewSchool = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">
-                  Be the first to make a post for your school!
+                  {user && user.length > 0 ? (
+                    "Be the first to make a post for your school!"
+                  ) : (
+                    <Button asChild>
+                      <Link to="/">Log In</Link>
+                    </Button>
+                  )}
                 </CardTitle>
               </CardHeader>
               <CardFooter className="flex justify-center items-center">

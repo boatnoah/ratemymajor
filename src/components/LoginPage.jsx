@@ -11,6 +11,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+
 const LoginPage = () => {
   const navigate = useNavigate();
   supabase.auth.onAuthStateChange(async (event) => {

@@ -43,8 +43,8 @@ const ViewMore = () => {
 
       if (error) {
         console.log("error", error);
+        setUser({ aud: "not" });
       } else {
-        console.log("user data", data.user);
         setUser(data.user);
       }
     };
@@ -218,8 +218,11 @@ const ViewMore = () => {
       .select("downvotes")
       .eq("id", user_Id)
       .single();
-    console.log("error", error);
-    console.log("failed data", data);
+
+    if (error) {
+      console.log(error);
+    }
+
     const downVoteData = data.downvotes;
     await supabase
       .from("comments")
@@ -229,7 +232,6 @@ const ViewMore = () => {
 
     setTriggerRefresh(true);
   };
-  console.log(post);
   return (
     <div>
       <NavBar />
@@ -285,7 +287,7 @@ const ViewMore = () => {
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <CardTitle>{post.school}</CardTitle>
-              <Badge className="flex justify-center gap-5 w-1/6 my-2">
+              <Badge className="flex gap-2 w-[175px] my-2">
                 <span>
                   <GraduationCap />
                 </span>
@@ -322,49 +324,49 @@ const ViewMore = () => {
           </Card>
         )}
 
-        {commentData && commentData.length > 0 ? (
-          commentData.map((comment) => (
-            <Card className="w-1/2" key={comment.user_id}>
-              <CardHeader>
-                <CardTitle>
-                  <div className="flex items-center gap-3">
-                    <Avatar>
-                      <AvatarImage src={`${comment.picture}`} />
-                      <AvatarFallback>OP</AvatarFallback>
-                    </Avatar>
-                    {comment.name}
+        {commentData && commentData.length > 0
+          ? commentData.map((comment) => (
+              <Card className="w-1/2" key={comment.user_id}>
+                <CardHeader>
+                  <CardTitle>
+                    <div className="flex items-center gap-3">
+                      <Avatar>
+                        <AvatarImage src={`${comment.picture}`} />
+                        <AvatarFallback>OP</AvatarFallback>
+                      </Avatar>
+                      {comment.name}
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>{comment.text}</CardDescription>
+                </CardContent>
+                <CardFooter className="flex gap-3">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      className="inline-flex items-center rounded-full bg-green-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                      onClick={() => handleUpVotes(comment.id)}
+                    >
+                      <ThumbsUpIcon className="mr-2 h-5 w-5" />
+                      <span>{comment.upvotes}</span>
+                    </Button>
                   </div>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>{comment.text}</CardDescription>
-              </CardContent>
-              <CardFooter className="flex gap-3">
-                <div className="flex items-center gap-2">
-                  <Button
-                    className="inline-flex items-center rounded-full bg-green-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                    onClick={() => handleUpVotes(comment.id)}
-                  >
-                    <ThumbsUpIcon className="mr-2 h-5 w-5" />
-                    <span>{comment.upvotes}</span>
-                  </Button>
-                </div>
 
-                <div className="flex items-center gap-2">
-                  <Button
-                    className="inline-flex items-center rounded-full bg-red-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                    onClick={() => handleDownVotes(comment.id)}
-                  >
-                    <ThumbsDownIcon className="mr-2 h-5 w-5" />
-                    <span>{comment.downvotes}</span>
-                  </Button>
-                </div>
-              </CardFooter>
-            </Card>
-          ))
-        ) : (
-          <h1 className="text-lg font-bold">Be first to comment!</h1>
-        )}
+                  <div className="flex items-center gap-2">
+                    <Button
+                      className="inline-flex items-center rounded-full bg-red-500 px-3 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                      onClick={() => handleDownVotes(comment.id)}
+                    >
+                      <ThumbsDownIcon className="mr-2 h-5 w-5" />
+                      <span>{comment.downvotes}</span>
+                    </Button>
+                  </div>
+                </CardFooter>
+              </Card>
+            ))
+          : user.aud === "authenticated" && (
+              <h1 className="text-lg font-bold">Be first to comment!</h1>
+            )}
 
         {canMakeComments && (
           <Card className="w-1/2">

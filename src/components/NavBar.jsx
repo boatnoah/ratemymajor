@@ -14,10 +14,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 const NavBar = () => {
   const [isSignedIn, setSignedIn] = useState(false);
   const [user, setUser] = useState({});
   const { toast } = useToast();
+  const navigate = useNavigate();
   useEffect(() => {
     const getUserData = async () => {
       const { data, error } = await supabase.auth.getUser();
@@ -35,7 +37,6 @@ const NavBar = () => {
         setSignedIn(true);
         setUser(data.user);
       } else {
-        console.log("logged out or not");
         setSignedIn(false);
       }
     };
@@ -51,6 +52,8 @@ const NavBar = () => {
     }
 
     setSignedIn(false);
+
+    navigate("/");
 
     toast({
       title: "Log Out Success",

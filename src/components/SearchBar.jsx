@@ -33,7 +33,7 @@ const SearchBar = () => {
           <Search className="absolute left-2 h-4 w-4 shrink-0 opacity-50" />
         </div>
         {searchInput && (
-          <div className="absolute top-full left-0 w-full max-h-48 overflow-y-auto shadow-lg rounded-lg mt-2 z-10">
+          <div className="absolute top-full bg-background left-0 w-full max-h-48 overflow-y-auto shadow-lg dark:border rounded-lg mt-2 z-10">
             {filteredUniversities &&
               filteredUniversities.map((uni, index) => (
                 <Link key={index} to={`/${uni.item.institution}`}>
