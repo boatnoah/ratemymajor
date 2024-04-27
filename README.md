@@ -93,12 +93,10 @@ Remove unwanted reviews of yours.
 
 View and read published reviews.
 
+
 GIF created with LICEcap...
 
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+Check out the website live: [ratemymajor.com](https://main--ratemymajor.netlify.app/)
 
 ## Notes
 
