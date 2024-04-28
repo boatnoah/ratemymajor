@@ -158,13 +158,7 @@ const ViewSchool = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">
-                  {user && user.length > 0 ? (
-                    "Be the first to make a post for your school!"
-                  ) : (
-                    <Button asChild>
-                      <Link to="/">Log In</Link>
-                    </Button>
-                  )}
+                  Be the first to make a post for your school!
                 </CardTitle>
               </CardHeader>
               <CardFooter className="flex justify-center items-center">
