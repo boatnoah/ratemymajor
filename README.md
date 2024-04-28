@@ -40,16 +40,63 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories:
 
-<!-- Replace this with whatever GIF tool you used! -->
+## Searching
+
+### Searching for Content
+
+![searching](https://github.com/boatnoah/ratemymajor/assets/112355104/1dbc4eb6-5f58-4c97-8865-92b19883b532)
+
+Search for content by keywords or categories.
+
+## User Authentication
+
+### User Login
+
+![user-login](https://github.com/boatnoah/ratemymajor/assets/112355104/c5195f86-08ae-472a-a412-34dfdd62cf46)
+
+Log in to the application with your credentials.
+
+### Logging Out
+
+![loggedoutPOV](https://github.com/boatnoah/ratemymajor/assets/112355104/7acac6e5-2d59-43eb-ac93-eedb3ef4d432)
+
+Log out of the application securely.
+
+## Post Management
+
+### Creating a Post
+
+![createpost](https://github.com/boatnoah/ratemymajor/assets/112355104/ed43c595-b64c-44e9-85b0-88efa08a9e1a)
+
+
+Create and publish new reviews for your major.
+
+### Editing a Post
+
+![editpost](https://github.com/boatnoah/ratemymajor/assets/112355104/09c711e2-a241-4b55-8b6f-5bfc04a6966e)
+
+
+Update and modify existing reviews of yours.
+
+### Deleting a Post
+
+![deletepost](https://github.com/boatnoah/ratemymajor/assets/112355104/6f41a8be-a747-426b-b340-34f8627d6a59)
+
+Remove unwanted reviews of yours.
+
+## Viewing Content
+
+### Viewing Content
+
+![viewing](https://github.com/boatnoah/ratemymajor/assets/112355104/2e56c9a7-20f7-45e5-a347-465c4b434a53)
+
+View and read published reviews.
+
 
 GIF created with LICEcap...
 
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+Check out the website live: [ratemymajor.com](https://main--ratemymajor.netlify.app/)
 
 ## Notes
 
