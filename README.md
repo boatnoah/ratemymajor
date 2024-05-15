@@ -1,4 +1,4 @@
-_RateMyMajor_
+# _RateMyMajor_
 
 Submitted by: **Noah Kim**
 
