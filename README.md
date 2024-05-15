@@ -1,4 +1,4 @@
-# Web Development Final Project - _RateMyMajor_
+_RateMyMajor_
 
 Submitted by: **Noah Kim**
 
