@@ -113,16 +113,11 @@ To tackle this, I utilized the Fuse.js library, which is designed for fuzzy sear
 This was necessary to prevent the application from becoming sluggish or unresponsive when dealing with a large volume of data.
 
 Another area that took some time and effort was setting up user authentication. Reading through the documentation and understanding the
-
-intricacies of secure authentication workflows. While there are pre-built solutions available, I decided to roll my own authentication system to have more control and customization.
+intricacies of secure authentication workflows.
 
 On the front-end side, I utilized the Shadcn to help with the styling and overall look and feel of the website.
 
-While this library accelerated the component development process, there was still a learning curve in understanding its design system, customization options,
-
-and making it work seamlessly with my application's specific requirements. Finding the right balance between leveraging the
-
-library's capabilities while maintaining my desired visual aesthetic was a challenge I had to navigate.
+While this library accelerated the component development process, there was still a learning curve in understanding its design system, customization options, and making it work seamlessly with my application's specific requirements. Finding the right balance between leveraging the library's capabilities while maintaining my desired visual aesthetic was a challenge I had to navigate.
 
 ## License
 
